@@ -48,11 +48,11 @@ window.MessageManager = (function(){
 
 
   chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    if (_isFromBackground(sender.id)){
+    // if (_isFromBackground(sender.id)){
       _handleMessageFromBackground(message, sender, sendResponse);
-    } else {
-      console.log("Message from where?", sender);
-    }
+    // } else {
+      // console.log("Message from where?", sender);
+    // }
   });
 
 

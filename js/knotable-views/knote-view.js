@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 var KnoteModel;
 
@@ -36,7 +36,19 @@ var KnoteView = Backbone.View.extend({
 
   },
   initialize: function(model) {
-    this.template = _.template($('#knote-template').html());
+    this.template = function(obj){
+      var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+      with(obj||{}){
+      __p+='\n            <li data-knoteid="'+
+      ((__t=( knoteId ))==null?'':__t)+
+      '" class="list-group-item list-knote">\n                <div class="body">\n                    <strong> '+
+      ((__t=( content.length ? (c = content.split('\n')[0], c.length < 25 ? c : c.substr(0, 23) + '...') : '' ))==null?'':__t)+
+      ' </strong>\n                </div>\n                <div class="date"> '+
+      ((__t=( new moment(updated_date || date).fromNow() ))==null?'':__t)+
+      ' </div>\n            </li>\n            ';
+      }
+      return __p;
+      }
     this.model = model;
     var self = this;
     this.model.bind('save', function(resp) {
