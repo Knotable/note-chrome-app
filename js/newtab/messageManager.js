@@ -9,11 +9,11 @@ window.MessageManager = (function(){
 
   var _onLogout = function(){
     localStorage.clear();
-    location.reload();
+    // chrome.runtime.reload();
   };
 
   var _onLogin = function(){
-    location.reload();
+    // chrome.runtime.reload();
   };
 
   var _onConnected = function(){

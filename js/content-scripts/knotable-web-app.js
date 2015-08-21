@@ -17,12 +17,12 @@ console.log("knotable web app launched!", chrome.runtime.id);
       switch(message.msg){
         case 'logoutExtension':
         localStorage[tokenName] = null;
-        location.reload();
+        // chrome.runtime.reload();
         break;
         case "loginExtension":
         if (message.token === localStorage[tokenName]) return;
         localStorage[tokenName] = message.token;
-        location.reload();
+        // chrome.runtime.reload();
         break;
         default:
         console.error("Unhandled message", message, sender);
@@ -41,7 +41,7 @@ console.log("knotable web app launched!", chrome.runtime.id);
       } else {
         if(response.token !== localStorage[tokenName]){
           localStorage[tokenName] = response.token;
-          location.reload();
+          // chrome.runtime.reload();
         }
       }
     }

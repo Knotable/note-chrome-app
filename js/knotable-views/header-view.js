@@ -29,7 +29,7 @@ var HeaderView = Backbone.View.extend({
   logout: function() {
     knoteClient.logout().then(function() {
       localStorage.clear();
-      location.reload();
+      // chrome.runtime.reload();
     });
   },
 

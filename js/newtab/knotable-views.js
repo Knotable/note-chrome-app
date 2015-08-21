@@ -244,7 +244,7 @@ window.KnotableViews = function(events) {
           chrome.storage.local.set(loginData, $.noop);
           self.reset();
           self.hide();
-          location.reload();
+          // chrome.runtime.reload();
         })
       }).fail(function(error) {
         //self.reset();
@@ -413,7 +413,7 @@ window.KnotableViews = function(events) {
         chrome.storage.local.set(loginData, $.noop);
         self.hide();
 
-        location.reload();
+        // chrome.runtime.reload();
 
       })
       .fail(function(err) {
