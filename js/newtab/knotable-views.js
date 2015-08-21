@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 /*
 * jQuery utility function to set a default value to an input field
@@ -536,10 +536,41 @@ window.KnotableViews = function(events) {
       var view = _views[viewName];
 
       if (view.prototype.templateUrl && !view.prototype.template) {
-        $.get(view.prototype.templateUrl).then(function(resp) {
-          view.prototype.template = _.template(resp);
-          _loadNext(chrome, views, viewsKeys, ++idx);
-        });
+        switch(view.prototype.templateUrl){
+          case '/views/forgot-password.html':
+          view.prototype.template = function(obj){
+            var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+            with(obj||{}){
+            __p+='<div class="knotable-lightbox-inner"></div> <div id="knotable-boxforgot_password" class="knotable-box knotable-box-side collapsed"> <div class="knotable-box-title text-center">Forgot <span>Password</span>?</div> <section> <div class="input-wrapper"> <input type="text" class="input-title input-textbox" id="recovery-email" placeholder="Email"> </div> <p class="knotable-p" id="status-text">Please enter your email in the box above and press "Submit" to retrieve your password.</p> <div class="buttons"> <input id="forget-password-submit-button" type="button" class="knotable-button knotable-button-full" value="Submit"/> <div>&nbsp;</div> <input type="button" class="knotable-button knotable-button-full" id="forgot-password-back-button" value="Go back"/> </div> </section> </div>';
+            }
+            return __p;
+            };
+          break;
+          case '/views/login.html':
+          view.prototype.template = function(obj){
+            var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+            with(obj||{}){
+            __p+='<div class="knotable-lightbox-inner"></div> <div id="knotable-box-login" class="knotable-box knotable-box-side"> <div> <span class="knotable-logo"></span> </div> <div class="knotable-box-title text-center">Welcome to Knotable</div> <div> <p class="knotable-p" id="login_status"></p> <form> <div class="input-wrapper"> <input type="text" class="input-textbox" value="" name="email" id="knotable-login-username" placeholder="Username or email" autofocus autocomplete="off"> </div> <div class="input-wrapper input-wrapper-icon"> <input type="password" class="input-textbox" value="" name="password" id="knotable-login-password" placeholder="Enter password" autocomplete="off"> <a id="forgot-password" class="knotable-link-forget-password">?</a> </div> <div class="knotable-buttons"> <button type="submit" class="knotable-button knotable-button-full" id="knotable-button-login"> <span id="login-btn-label">SIGN IN </span> <img id="login-btn-loader" src="../images/loader.gif" style="width: 40px;   height: 10px;"> </button> </div> <!-- <div class="knotable-buttons"> <button type="button" class="knotable-button knotable-button-full" id="knotable-google-login"> <span>Google Login</span> </button> </div> --> <p class="knotable-p text-center">Don\'t have an account? <a ';
+            }
+            return __p;
+          };
+          break;
+          case '/views/sign-up.html':
+            view.prototype.template = function(obj){
+              var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+              with(obj||{}){
+              __p+='<div class="knotable-lightbox-inner"></div> <div id="knotable-box-login" class="knotable-box knotable-box-side"> <div> <span class="knotable-logo"></span> </div> <div class="knotable-box-title text-center">Sign Up</div> <div> <p class="knotable-p" id="signup_status"></p> <form> <div class="input-wrapper"> <input type="text" class="input-textbox" value="" name="username" id="knotable-signup-username" placeholder="Enter a username" autofocus autocomplete="off"> </div> <div class="input-wrapper"> <input type="text" class="input-textbox" value="" name="email" id="knotable-signup-email" placeholder="Enter e-mail" autofocus autocomplete="off"> </div> <div class="input-wrapper input-wrapper-icon"> <input type="password" class="input-textbox" value="" name="password" id="knotable-signup-password" placeholder="Enter password" autocomplete="off"> </div> <div class="knotable-buttons"> <button type="submit" class="knotable-button knotable-button-full" id="knotable-button-signup"> <span>SIGN UP</span> <i class="fa fa-spinner fa-spin knotable-hide"></i> </button> </div> <p class="knotable-p text-center">Already have an account? <a id="knotable-button-login">Log In</a></p> </form> </div> </div>';
+              }
+              return __p;
+            };
+          break;
+        }
+      _loadNext(chrome, views, viewsKeys, ++idx);
+        // $.get(view.prototype.templateUrl).then(function(resp) {
+        //   console.log("long", view.prototype.templateUrl, resp);
+        //   // view.prototype.template = _.template(resp);
+        //   _loadNext(chrome, views, viewsKeys, ++idx);
+        // });
       } else {
         _loadNext(chrome, views, viewsKeys, ++idx);
       }

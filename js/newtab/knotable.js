@@ -35,8 +35,10 @@ function Knotable() {
 
       $('#userAvatar img').error( function() {
         $('#userAvatar').addClass('knotable-user-avatar');
-        var text = username[0].toUpperCase();
-        $('#userAvatar').html(text);
+        if(username){
+          var text = username[0].toUpperCase();
+          $('#userAvatar').html(text);
+        }
       });
     }
     if(username === null ||  fullname === null ||  avatar === null){

@@ -107,18 +107,6 @@ $(document).ready(function() {
 
   $("#knote-sync-message").css("visibility", "hidden");
 
-  var _checkLoginForPopup = function(){
-    knoteClient.hasLoggedIn().then(function(loggedIn){
-      if(!loggedIn){
-        chrome.browserAction.setPopup({popup: ''});
-      } else {
-        chrome.browserAction.setPopup({popup: 'views/browseraction-popup.html'});
-      }
-    }).fail(function(){
-      chrome.browserAction.setPopup({popup: ''});
-    });
-  };
-  _checkLoginForPopup();
   if(navigator.onLine === true || !offlineMode.isOfflineMode){
         //return;
       offlineMode.syncOfflineKnotes();
