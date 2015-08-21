@@ -97,7 +97,7 @@ window.KnotableModels = function() {
 
         if (!userInfo.account_id) return;
 
-        knoteClient.apply('updateNewTabTopicPosition', [localStorageNote.topicId, 300, 'ext:Knotes.destroy']).then(function(data){
+        knoteClient.apply('updateNewTabTopicPosition', [localStorage.topicId, 300, 'ext:Knotes.destroy']).then(function(data){
           console.log('NewTab Pad position updated')
         });
       });
@@ -142,7 +142,7 @@ window.KnotableModels = function() {
           return self.save();
         }
         console.debug('update knote metadata', data);
-        knoteClient.apply('updateNewTabTopicPosition', [localStorageNote.topicId, 300, 'ext:Knotes.update']).then(function(data){
+        knoteClient.apply('updateNewTabTopicPosition', [localStorage.topicId, 300, 'ext:Knotes.update']).then(function(data){
           console.log('NewTab Pad position updated')
         });
         return knoteClient.apply('update_knote_metadata', [self.get('knoteId'), data, 'ext:Knotes.update']);

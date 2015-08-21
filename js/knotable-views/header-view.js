@@ -28,7 +28,7 @@ var HeaderView = Backbone.View.extend({
 
   logout: function() {
     knoteClient.logout().then(function() {
-      localStorageNote.clear();
+      localStorage.clear();
       location.reload();
     });
   },
@@ -43,9 +43,9 @@ var HeaderView = Backbone.View.extend({
     knoteClient.getTopicId().then(function(topicId) {
       if (!_.isEmpty(topicId)) {
         topicUrl += "/t/0/" + topicId;
-        localStorageNote.topicId = topicId;
+        localStorage.topicId = topicId;
       } else {
-        localStorageNote.topicId = null;
+        localStorage.topicId = null;
       }
       self.$el.find('#newtab-topic-id').attr('href', topicUrl);
     }).fail(function(){

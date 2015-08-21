@@ -23,8 +23,8 @@
 		_mapDraftsToKnotes: function(knoteID, draftID){
 			var draftsKnotesMap = [];
 
-			if(localStorageNote.getItem("draft-knote-map") !== null ){
-				draftsKnotesMap = JSON.parse(localStorageNote.getItem('draft-knote-map'));
+			if(localStorage.getItem("draft-knote-map") !== null ){
+				draftsKnotesMap = JSON.parse(localStorage.getItem('draft-knote-map'));
 			}
 
 			var tmpObj = {};
@@ -38,7 +38,7 @@
 				draftsKnotesMap.push(tmpObj);
 			}
 
-			localStorageNote.setItem('draft-knote-map', JSON.stringify(draftsKnotesMap));
+			localStorage.setItem('draft-knote-map', JSON.stringify(draftsKnotesMap));
 		},
 		updateDraftFromID: function(draftID, message, subject){
 			gapi.client.load('gmail', 'v1', function() {
@@ -60,9 +60,9 @@
 		},
 
 		isGmailSyncSetting: function(){
-			if(localStorageNote.getItem('sync-gmail')!== null && localStorageNote.getItem('sync-gmail') === "true" ){
+			if(localStorage.getItem('sync-gmail')!== null && localStorage.getItem('sync-gmail') === "true" ){
 				return true;
-			} else if(localStorageNote.getItem('sync-gmail')!== null && localStorageNote.getItem('sync-gmail') === "false" ){
+			} else if(localStorage.getItem('sync-gmail')!== null && localStorage.getItem('sync-gmail') === "false" ){
 				return false;
 			} else{
 				return false;

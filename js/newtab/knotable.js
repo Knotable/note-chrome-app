@@ -10,9 +10,9 @@ function Knotable() {
   var setUserInfoLocal = function(){
 
     _setUserAvatar();  // update the details if necessary
-    var username = localStorageNote.getItem("username");
-    var fullname = localStorageNote.getItem("fullname");
-    var avatar =   localStorageNote.getItem("avatar");
+    var username = localStorage.getItem("username");
+    var fullname = localStorage.getItem("fullname");
+    var avatar =   localStorage.getItem("avatar");
 
     if(username !== null){
       $('#user-avatar-username').text("@" + username);
@@ -53,7 +53,7 @@ function Knotable() {
         var username = contact.username;
         if (gravatar && !!gravatar.path) {
 
-          localStorageNote.setItem("avatar", gravatar.path);
+          localStorage.setItem("avatar", gravatar.path);
           var imgHtml = "<img style='width: 50px; height: 50px; border-radius: 50%;' src='" + gravatar.path + "' />";
           $('#userAvatar').html(imgHtml);
 
@@ -64,11 +64,11 @@ function Knotable() {
           });
 
         } else {
-          localStorageNote.setItem("avatar", "false");
+          localStorage.setItem("avatar", "false");
         }
         /* update local storage variables */
-        localStorageNote.setItem("username", username);
-        localStorageNote.setItem("fullname", contact.fullname);
+        localStorage.setItem("username", username);
+        localStorage.setItem("fullname", contact.fullname);
 
         $('#user-avatar-username').text("@" + username);
         $('#user-avatar-displayname').text(contact.fullname)
@@ -88,14 +88,14 @@ function Knotable() {
       var gravatar = contact.avatar;
       var username = contact.username;
       if (gravatar && !!gravatar.path) {
-        localStorageNote.setItem("avatar", gravatar.path);
+        localStorage.setItem("avatar", gravatar.path);
 
       } else {
-        localStorageNote.setItem("avatar", "false");
+        localStorage.setItem("avatar", "false");
       }
       /* update local storage variables */
-      localStorageNote.setItem("username", username);
-      localStorageNote.setItem("fullname", contact.fullname);
+      localStorage.setItem("username", username);
+      localStorage.setItem("fullname", contact.fullname);
       /* done updating */
     });
   };

@@ -22,10 +22,10 @@ var KnotesSyncView = Backbone.View.extend({
       .then(function(){
         DropboxClient.enableSyncKnoteToDropbox(enableSyncKnote);
         console.log("Dropbox authenticate Success!");
-        localStorageNote.setItem("sync-dropbox", "true");
+        localStorage.setItem("sync-dropbox", "true");
       }).fail(function(error){
         console.error("Dropbox authenticate failed: ", error);
-        localStorageNote.setItem("sync-dropbox", "false");
+        localStorage.setItem("sync-dropbox", "false");
       });
     } else {
       DropboxClient.enableSyncKnoteToDropbox(enableSyncKnote);
@@ -43,16 +43,16 @@ var KnotesSyncView = Backbone.View.extend({
       this._authDropbox(ele);
     }
     else{
-      if(localStorageNote.getItem('sync-evernote')!== null && localStorageNote.getItem('sync-evernote') === "true" ){
-        localStorageNote.setItem("sync-evernote", "false");
+      if(localStorage.getItem('sync-evernote')!== null && localStorage.getItem('sync-evernote') === "true" ){
+        localStorage.setItem("sync-evernote", "false");
       }
 
-      else if(localStorageNote.getItem('sync-evernote')!== null && localStorageNote.getItem('sync-evernote') === "false" ){
-        localStorageNote.setItem("sync-evernote", "true");
+      else if(localStorage.getItem('sync-evernote')!== null && localStorage.getItem('sync-evernote') === "false" ){
+        localStorage.setItem("sync-evernote", "true");
       }
 
       else{
-        localStorageNote.setItem("sync-evernote", "true");
+        localStorage.setItem("sync-evernote", "true");
       }
 
     }
@@ -67,9 +67,9 @@ var KnotesSyncView = Backbone.View.extend({
   render: function() {
     this.toggleView();
 
-    this.$el.find('#setting-user').text(localStorageNote.userName);
+    this.$el.find('#setting-user').text(localStorage.userName);
 
-    if(localStorageNote.getItem('sync-gmail')!== null && localStorageNote.getItem('sync-gmail') === "true" ){
+    if(localStorage.getItem('sync-gmail')!== null && localStorage.getItem('sync-gmail') === "true" ){
       this.$el.find('#sync-gmail').attr("checked", "checked");
     }
 
@@ -81,7 +81,7 @@ var KnotesSyncView = Backbone.View.extend({
       };
     });
 
-    if(localStorageNote.getItem('sync-evernote')!== null && localStorageNote.getItem('sync-evernote') === "true" ){
+    if(localStorage.getItem('sync-evernote')!== null && localStorage.getItem('sync-evernote') === "true" ){
       this.$el.find('#sync-evernote').attr("checked", "checked");
     }
   },
@@ -96,16 +96,16 @@ var KnotesSyncView = Backbone.View.extend({
         // The person has authorized or is already logged in
         // pass a callback in future
 
-        if(localStorageNote.getItem('sync-gmail')!== null && localStorageNote.getItem('sync-gmail') === "true" ){
-          localStorageNote.setItem("sync-gmail", "false");
+        if(localStorage.getItem('sync-gmail')!== null && localStorage.getItem('sync-gmail') === "true" ){
+          localStorage.setItem("sync-gmail", "false");
         }
 
-        else if(localStorageNote.getItem('sync-gmail')!== null && localStorageNote.getItem('sync-gmail') === "false" ){
-          localStorageNote.setItem("sync-gmail", "true");
+        else if(localStorage.getItem('sync-gmail')!== null && localStorage.getItem('sync-gmail') === "false" ){
+          localStorage.setItem("sync-gmail", "true");
         }
 
         else{
-          localStorageNote.setItem("sync-gmail", "true");
+          localStorage.setItem("sync-gmail", "true");
         }
 
       } else {
@@ -128,7 +128,7 @@ var KnotesSyncView = Backbone.View.extend({
 
                 setTimeout(function(){
                   // $("#btn-email-knote").click();
-                  localStorageNote.setItem("sync-gmail", "true");
+                  localStorage.setItem("sync-gmail", "true");
                 }, 1000);
               }
             });

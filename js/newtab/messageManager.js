@@ -8,7 +8,7 @@ window.MessageManager = (function(){
   };
 
   var _onLogout = function(){
-    localStorageNote.clear();
+    localStorage.clear();
     location.reload();
   };
 

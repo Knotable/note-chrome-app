@@ -90,7 +90,7 @@ var bootstrap = function() {
     if (contact){
       new UserAvatarView(new UserAvatarModel(contact));
       _knotesView.contact = contact;
-      localStorageNote.userName = contact.username;
+      localStorage.userName = contact.username;
     }
   });
   var headerView = new HeaderView().render();
@@ -103,7 +103,7 @@ var bootstrap = function() {
 window.config = getConfig(runtime_mode);
 $(document).ready(function() {
   new introBoxView().render();
-  localStorageNote.setItem("isIntroSeen", "true");
+  localStorage.setItem("isIntroSeen", "true");
 
   $("#knote-sync-message").css("visibility", "hidden");
 

@@ -8,6 +8,7 @@
       "background": {
           "persistent": true,
           "scripts": [
+              "js/vendor/chrome_localStorage.js",
               "js/vendor/sockjs.min.js",
               "js/vendor/jquery.2.1.0.js",
               "js/vendor/underscore-min.js",

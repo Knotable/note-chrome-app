@@ -118,7 +118,7 @@ var KnotesView = Backbone.View.extend({
     var newKnote = new KnoteModel({
       order: nextOrder + 0.1,
       content: content,
-      topicId: localStorageNote.topicId
+      topicId: localStorage.topicId
     });
     newKnote.save();
     this.collection.add(newKnote);
@@ -343,7 +343,7 @@ var KnotesView = Backbone.View.extend({
     var knoteID = knote.get("_id") || knote.get("knoteId");
 
     var updateData = {
-      topic_id: localStorageNote.topicId
+      topic_id: localStorage.topicId
     };
 
     console.log("on knote changed", knoteID, knote.attributes);
@@ -430,8 +430,8 @@ var KnotesView = Backbone.View.extend({
     var self = this;
     var gmailDrafts = [];
 
-    if(localStorageNote.getItem('gmailDrafts') !== null){
-      gmailDrafts = JSON.parse(localStorageNote.getItem('gmailDrafts'))
+    if(localStorage.getItem('gmailDrafts') !== null){
+      gmailDrafts = JSON.parse(localStorage.getItem('gmailDrafts'))
     }
     else{
       // do nothing for now
@@ -451,7 +451,7 @@ var KnotesView = Backbone.View.extend({
       gmailDrafts.push(currentKnote);
     }
 
-    localStorageNote.setItem('gmailDrafts', JSON.stringify(gmailDrafts));
+    localStorage.setItem('gmailDrafts', JSON.stringify(gmailDrafts));
   },
 
   saveKnoteAsServerDraft: function(knoteData){
@@ -459,8 +459,8 @@ var KnotesView = Backbone.View.extend({
     var self = this;
     var knoteDrafts = [];
 
-    if(localStorageNote.getItem('knoteDrafts') !== null){
-      knoteDrafts = JSON.parse(localStorageNote.getItem('knoteDrafts'))
+    if(localStorage.getItem('knoteDrafts') !== null){
+      knoteDrafts = JSON.parse(localStorage.getItem('knoteDrafts'))
     }
 
     else{
@@ -476,7 +476,7 @@ var KnotesView = Backbone.View.extend({
       knoteDrafts.push(knoteData);
     }
 
-    localStorageNote.setItem('knoteDrafts', JSON.stringify(knoteDrafts));
+    localStorage.setItem('knoteDrafts', JSON.stringify(knoteDrafts));
   },
 
   _syncGmailDraftsService: function(){
@@ -488,10 +488,10 @@ var KnotesView = Backbone.View.extend({
         return;
       }
       var gmailDrafts = [];
-      var knotesDraftsMap = JSON.parse(localStorageNote.getItem('draft-knote-map'));
+      var knotesDraftsMap = JSON.parse(localStorage.getItem('draft-knote-map'));
 
-      if(localStorageNote.getItem('gmailDrafts') !== null ){
-        gmailDrafts = JSON.parse(localStorageNote.getItem('gmailDrafts'));
+      if(localStorage.getItem('gmailDrafts') !== null ){
+        gmailDrafts = JSON.parse(localStorage.getItem('gmailDrafts'));
 
         if(gmailDrafts.length > 0){
           var matchedDraft = _.findWhere(knotesDraftsMap, {'knoteID':gmailDrafts[0].knoteID});
@@ -505,7 +505,7 @@ var KnotesView = Backbone.View.extend({
           gmailDrafts = _.reject(gmailDrafts, function(el) { return el.knoteID === gmailDrafts[0].knoteID; });
         }
 
-        localStorageNote.setItem('gmailDrafts', JSON.stringify(gmailDrafts));
+        localStorage.setItem('gmailDrafts', JSON.stringify(gmailDrafts));
       }
 
     }, 60000);
@@ -518,14 +518,14 @@ var KnotesView = Backbone.View.extend({
 
       var knoteDrafts = [];
 
-      if(localStorageNote.getItem('knoteDrafts') !== null ){
+      if(localStorage.getItem('knoteDrafts') !== null ){
         // console.log("sync started");
-        knoteDrafts = JSON.parse(localStorageNote.getItem('knoteDrafts'));
+        knoteDrafts = JSON.parse(localStorage.getItem('knoteDrafts'));
 
         if(knoteDrafts.length > 0){
 
           var updateData = {
-            topic_id: localStorageNote.topicId
+            topic_id: localStorage.topicId
           };
 
           updateData = $.extend({
@@ -538,7 +538,7 @@ var KnotesView = Backbone.View.extend({
         }
       }
       else{
-        localStorageNote.setItem('knoteDrafts', JSON.stringify(knoteDrafts));
+        localStorage.setItem('knoteDrafts', JSON.stringify(knoteDrafts));
       }
 
     }, 15000);

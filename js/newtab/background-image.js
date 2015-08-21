@@ -16,26 +16,26 @@
       var start = new Date().getTime();
       var d = new Date(),
       days = d.getDate(),
-      localBgDate = localStorageNote.bgDate || d,
-      localBgId = localStorageNote.bgId || 0,
+      localBgDate = localStorage.bgDate || d,
+      localBgId = localStorage.bgId || 0,
       _bgDate = new Date(localBgDate),
       _bgDays = _bgDate.getDate();
 
       if (days != _bgDays) {
-        if (!localStorageNote.isNext) {
-          localStorageNote.bgId = 0;
+        if (!localStorage.isNext) {
+          localStorage.bgId = 0;
         } else {
-          localStorageNote.bgId = parseInt(localBgId) + 1;
-          localStorageNote.bgDate = d;
+          localStorage.bgId = parseInt(localBgId) + 1;
+          localStorage.bgDate = d;
         }
       } else {
-        localStorageNote.bgId = localBgId;
-        localStorageNote.bgDate = d;
+        localStorage.bgId = localBgId;
+        localStorage.bgDate = d;
       }
 
-      this.bgImage = localStorageNote.bgId == 0 || !localStorageNote.bgId ? '../images/bg_0.webp' : imagesHostUrl + 'bg_' + localStorageNote.bgId + '.webp';
+      this.bgImage = localStorage.bgId == 0 || !localStorage.bgId ? '../images/bg_0.webp' : imagesHostUrl + 'bg_' + localStorage.bgId + '.webp';
 
-      localStorageNote.setItem("bgImage", this.bgImage);
+      localStorage.setItem("bgImage", this.bgImage);
       this.requestImage();
 
       var end = new Date().getTime();
@@ -77,7 +77,7 @@
         console.log("**************************")
         console.log("width: " + image.width + " "+ "Height: " + image.height)
         console.log("**************************")
-        // Set on localStorageNote
+        // Set on localStorage
         self.collection.create({
           id: id,
           image: dataURL
@@ -88,7 +88,7 @@
     },
     resetToZero: function(statsus) {
       if (statsus !== 0) {
-        localStorageNote.bgId = 0;
+        localStorage.bgId = 0;
       }
     },
     fail: function(res) {
@@ -111,13 +111,13 @@
     },
 
     done: function() {
-      var id = parseInt(localStorageNote.getItem('bgId'), 10);
+      var id = parseInt(localStorage.getItem('bgId'), 10);
       if ((id != '0') && !this.collection.get(id)) {
         !this.isCached() && this.setBase64Image(this.bgImage, id);
       }
 
       // load next image
-      localStorageNote.setItem('isNext', true);
+      localStorage.setItem('isNext', true);
 
       this.always();
       this.$el.css('background-image', 'url("' + this.bgImage + '")')
@@ -140,7 +140,7 @@
     },
 
     isCached: function() {
-      var id = parseInt(localStorageNote.getItem('bgId'), 10),
+      var id = parseInt(localStorage.getItem('bgId'), 10),
       preImageModel = this.collection.get((id - 1)),
       imageModel = this.collection.get(id);
 
@@ -149,7 +149,7 @@
     },
     requestImage: function() {
 
-      var id = parseInt(localStorageNote.getItem('bgId'), 10);
+      var id = parseInt(localStorage.getItem('bgId'), 10);
       if (this.isCached()) {
         var imageModel = this.collection.get(id);
         var imgSrc = imageModel.get('image');
@@ -179,7 +179,7 @@
     },
     requestNextImage: function() {
       var self = this,
-      id = parseInt(localStorageNote.getItem('bgId'), 10);
+      id = parseInt(localStorage.getItem('bgId'), 10);
       var nextId = ++id,
       nextImage = imagesHostUrl + 'bg_' + nextId + '.webp';
       if (!this.collection.get(nextId)) {
@@ -187,10 +187,10 @@
         var $image = $.get(nextImage);
         $image.done(function() {
           self.setBase64Image(nextImage, nextId);
-          localStorageNote.setItem('isNext', true);
+          localStorage.setItem('isNext', true);
         });
         $image.fail(function(res) {
-          localStorageNote.setItem('isNext', '');
+          localStorage.setItem('isNext', '');
         });
       }
     },

@@ -18,7 +18,7 @@ var introBoxView = Backbone.View.extend({
   },
 
   render: function() {
-    if(localStorageNote.getItem("isIntroSeen") === "false"){
+    if(localStorage.getItem("isIntroSeen") === "false"){
       this.toggleView();
       this._setExtensionVersion();
     }

@@ -445,16 +445,16 @@ window.KnotableViews = function(events) {
 
           // The person has authorized or is already logged in
           // pass a callback in future
-          if(localStorageNote.getItem('sync-gmail')!== null && localStorageNote.getItem('sync-gmail') === "true" ){
-            localStorageNote.setItem("sync-gmail", "false");
+          if(localStorage.getItem('sync-gmail')!== null && localStorage.getItem('sync-gmail') === "true" ){
+            localStorage.setItem("sync-gmail", "false");
           }
 
-          else if(localStorageNote.getItem('sync-gmail')!== null && localStorageNote.getItem('sync-gmail') === "false" ){
-            localStorageNote.setItem("sync-gmail", "true");
+          else if(localStorage.getItem('sync-gmail')!== null && localStorage.getItem('sync-gmail') === "false" ){
+            localStorage.setItem("sync-gmail", "true");
           }
 
           else{
-            localStorageNote.setItem("sync-gmail", "true");
+            localStorage.setItem("sync-gmail", "true");
           }
 
         } else {
@@ -476,7 +476,7 @@ window.KnotableViews = function(events) {
 
                   setTimeout(function(){
                     // $("#btn-email-knote").click();
-                    localStorageNote.setItem("sync-gmail", "true");
+                    localStorage.setItem("sync-gmail", "true");
                   }, 1000);
                 }
               });
