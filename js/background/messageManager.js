@@ -9,16 +9,7 @@ window.MessageManager = (function(){
   };
 
   var sendMessageToWebpage = function(msg){
-    chrome.tabs.query({
-      url: '*://' + config.domain + "/*"
-    }, function(tabs) {
-      for (var i = 0; i < tabs.length; i++) {
-        var tab = tabs[i];
-        chrome.tabs.sendMessage(tab.id, msg, function() {
-          console.log("Send message to web page", tab.id, msg, tab);
-        });
-      };
-    });
+
   };
 
 
