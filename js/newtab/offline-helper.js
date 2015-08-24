@@ -63,6 +63,17 @@ window.offlineMode = (function(){
     });
   };
 
+
+  exports.syncCreateKnotes = function(){
+   		chrome.storage.local.get('offlineCreateKnotes', function (result) {
+   			for(var i = 0; i < result.offlineCreateKnotes.length; i++){
+	        knoteClient.addKnote(result.offlineCreateKnotes[i]).then(function(knoteID){
+  	        	console.log("offline knote created");
+	        });
+   			}
+   			chrome.storage.local.set({'offlineCreateKnotes': []});
+   		});
+   	};
   return exports;
 
 })();

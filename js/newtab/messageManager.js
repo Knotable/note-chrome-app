@@ -19,6 +19,7 @@ window.MessageManager = (function(){
   var _onConnected = function(){
     console.log("server connected");
     offlineMode.syncOfflineKnotes();
+    offlineMode.syncCreateKnotes();
   };
 
   var _onDisconnected = function(){

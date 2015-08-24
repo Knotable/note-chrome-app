@@ -136,13 +136,6 @@ var KnotesView = Backbone.View.extend({
     });
   },
   createKnote: function(content) {
-    if(navigator.onLine === false || offlineMode.isOfflineMode){
-      //_updateKnoteOfflinereturn;
-      //if(this.localKnoteID){
-        this.localKnoteID = this._randomLocalKnoteID(10);
-      //}
-    }
-
     if(this.activeKnote){
       this.$el.find("#knote-edit-area").val('').focus();
       this.$el.find(".list-knote.active").removeClass("active");
@@ -151,6 +144,11 @@ var KnotesView = Backbone.View.extend({
 
       this._updateKnote();
       this.activeKnote = null;
+      if(navigator.onLine === false || offlineMode.isOfflineMode){
+        var random = this._randomLocalKnoteID(10);
+        $(".list-knote.active").attr("data-knoteLocalId", random);
+        this.localKnoteID = random;
+      }
       return null;
     }
 
@@ -258,7 +256,7 @@ var KnotesView = Backbone.View.extend({
     });
     this.$el.find("#knote-edit-area").focus();
     $("#knotes-list li:nth-child(1)").click();
-
+    this.localKnoteID = this._randomLocalKnoteID();
     return this;
   },
 
@@ -579,7 +577,7 @@ var KnotesView = Backbone.View.extend({
 
       var knoteDrafts = [];
 
-      if(localStorage.getItem('knoteDrafts') !== null ){
+      if(localStorage.getItem('knoteDrafts')){
         // console.log("sync started");
         knoteDrafts = JSON.parse(localStorage.getItem('knoteDrafts'));
 

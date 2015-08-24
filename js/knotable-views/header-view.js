@@ -19,11 +19,11 @@ var HeaderView = Backbone.View.extend({
 
   gAppClicked: function(){
     googleAnalyticsHelper.trackAnalyticsEvent('Google Apps button', 'clicked');
-    chrome.tabs.getCurrent(function(tab) {
-      chrome.tabs.update(tab.id, {
-        url: 'chrome://apps'
-      });
-    });
+    // chrome.tabs.getCurrent(function(tab) {
+    //   chrome.tabs.update(tab.id, {
+    //     url: 'chrome://apps'
+    //   });
+    // });
   },
 
   logout: function() {
