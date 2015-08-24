@@ -89,9 +89,58 @@ var KnotesView = Backbone.View.extend({
     });
 
   },
+  _randomLocalKnoteID: function (L){
+      var s= '';
+      var randomchar=function(){
+        var n= Math.floor(Math.random()*62);
+        if(n<10) return n; //1-10
+        if(n<36) return String.fromCharCode(n+55); //A-Z
+        return String.fromCharCode(n+61); //a-z
+      }
+      while(s.length< L) s+= randomchar();
+      return s;
+    },
+
+  _createKnoteOffline: function(){
+    var self = this;
+    self.offlineCreateKnotes = [];
+    chrome.storage.local.get('offlineCreateKnotes', function (result) {
+        if(!_.isEmpty(result)){
+          self.offlineCreateKnotes = result.offlineCreateKnotes;
+        }
+
+        // if(!window.currentLocalKnote){
+        //   window.currentLocalKnote = self._randomLocalKnoteID(10);
+        // }
+
+        var knote = {
+          "localID": self.localKnoteID,
+          "subject":"",
+          "body":"",
+          "htmlBody":$("#knote-edit-area").val().trim(),
+          "topic_id":localStorage.topicId
+        };
+
+        var matchedKnotes = _.findWhere(self.offlineCreateKnotes, {'localID':knote.localID});
+
+        if(matchedKnotes){
+          console.log("***********************")
+          console.log(matchedKnotes)
+          console.log("***********************")
+          matchedKnotes.htmlBody = $("#knote-edit-area").val().trim();
+        }
+        else{
+          self.offlineCreateKnotes.push(knote);
+        }
+        chrome.storage.local.set({'offlineCreateKnotes': self.offlineCreateKnotes});
+    });
+  },
   createKnote: function(content) {
     if(navigator.onLine === false || offlineMode.isOfflineMode){
-      return;
+      //_updateKnoteOfflinereturn;
+      //if(this.localKnoteID){
+        this.localKnoteID = this._randomLocalKnoteID(10);
+      //}
     }
 
     if(this.activeKnote){
@@ -220,7 +269,19 @@ var KnotesView = Backbone.View.extend({
   _updateKnoteOffline: function(){
        var self = this;
        self.offlineEditKnotes = []
+
+       if(!self.activeKnote){
+         this._createKnoteOffline();
+         return;
+       }
+
        var knoteId = self.activeKnote.get("_id") || self.activeKnote.get("knoteId");
+
+       if(!knoteId){
+         this._createKnoteOffline();
+         return;
+       }
+
        chrome.storage.local.get('offlineEditKnotes', function (result) {
          if(!_.isEmpty(result)){
            self.offlineEditKnotes = result.offlineEditKnotes;
@@ -534,7 +595,7 @@ var KnotesView = Backbone.View.extend({
           }, updateData);
         }
         else{
-          console.log("window event ended")
+          //console.log("window event ended")
         }
       }
       else{

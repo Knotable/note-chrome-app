@@ -53,6 +53,9 @@ var KnoteView = Backbone.View.extend({
     var self = this;
     this.model.bind('save', function(resp) {
       self.$el.attr('data-knoteid', resp.knoteId);
+
+      if(window._knotesView.localKnoteID)
+      self.$el.attr('data-knoteIdLocal', window._knotesView.localKnoteID);
     });
     this.model.bind('change', this.render, this);
     this.model.bind('destroy', this.remove, this);
