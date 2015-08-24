@@ -86,14 +86,8 @@ var bootstrap = function() {
   window._knotes = knotes;
   window._knotesView = knotesView;
 
-  knoteClient.getUserInfo().then(function(contact) {
-    if (contact){
-      new UserAvatarView(new UserAvatarModel(contact));
-      _knotesView.contact = contact;
-      localStorage.userName = contact.username;
-    }
-  });
-  var headerView = new HeaderView().render();
+  window._knotesView.headerView = new HeaderView();
+  window._knotesView.headerView.render();
 
   knotesView.render();
   chrome.runtime.onMessage.addListener(onNotification.bind(this, knotesView));

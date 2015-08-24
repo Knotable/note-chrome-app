@@ -19,17 +19,13 @@ var HeaderView = Backbone.View.extend({
 
   gAppClicked: function(){
     googleAnalyticsHelper.trackAnalyticsEvent('Google Apps button', 'clicked');
-    // chrome.tabs.getCurrent(function(tab) {
-    //   chrome.tabs.update(tab.id, {
-    //     url: 'chrome://apps'
-    //   });
-    // });
   },
 
   logout: function() {
     knoteClient.logout().then(function() {
-      localStorage.clear();
-      // chrome.runtime.reload();
+      if(self.avatarView){
+        self.avatarView.remove();
+      }
     });
   },
 
@@ -54,6 +50,19 @@ var HeaderView = Backbone.View.extend({
   },
 
   render: function() {
+    var self = this;
+    knoteClient.getUserInfo().then(function(contact) {
+      console.log("headerview contacts", contact);
+      if (contact){
+        self.avatarView = new UserAvatarView(new UserAvatarModel(contact));
+        window._knotesView.contact = contact;
+        localStorage.userName = contact.username;
+      } else {
+        if(self.avatarView){
+          self.avatarView.remove();
+        }
+      }
+    });
     this._setKUrl();
   }
 });

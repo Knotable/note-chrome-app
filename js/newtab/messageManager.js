@@ -8,12 +8,21 @@ window.MessageManager = (function(){
   };
 
   var _onLogout = function(){
-    localStorage.clear();
-    // chrome.runtime.reload();
+    setTimeout(function(){
+      // wait for loading user avatar
+      // TODO make it notification
+      window._knotesView.headerView.render();
+    }, 1000);
   };
 
   var _onLogin = function(){
-    // chrome.runtime.reload();
+    console.log("user logged in render header view");
+    setTimeout(function(){
+      // wait for loading user avatar
+      // TODO make it notification
+      window._knotesView.headerView.render();
+    }, 1000);
+
   };
 
   var _onConnected = function(){
