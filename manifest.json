@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
     "version": "0.0.1",
-    "name": "Note Chrome App from Knotable",
-    "short_name": "Note Chrome App",
-    "description": "Super fast notes",
+    "name": "Knotes",
+    "short_name": "Knotes",
+    "description": "Super fast notes app for Chrome from Knotable",
     "app": {
       "background": {
           "persistent": true,
