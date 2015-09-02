@@ -92,7 +92,13 @@ var KnotesView = Backbone.View.extend({
     if(this.activeKnote){
       this.$el.find("#knote-edit-area").val('').focus();
       this.$el.find(".list-knote.active").removeClass("active");
-      this.tmpl = _.template($('#new-knote-template').html());
+      this.tmpl = function(obj){
+        var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+        with(obj||{}){
+        __p+='\n                <li class="list-group-item list-knote new-knote active" style="margin-bottom: 0px;border:none;border-bottom: 1px solid #ddd"><div class="body" style="height: 18px"><strong>new</strong></div></li>\n            ';
+        }
+        return __p;
+        };
       this.$el.find("#knotes-list").prepend(this.tmpl);
 
       this._updateKnote();

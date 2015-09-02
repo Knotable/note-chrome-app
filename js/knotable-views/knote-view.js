@@ -41,6 +41,10 @@ var KnoteView = Backbone.View.extend({
       with(obj||{}){
       __p+='\n            <li data-knoteid="'+
       ((__t=( knoteId ))==null?'':__t)+
+      '"  data-order="'+
+      ((__t=( order ))==null?'':__t)+
+      '" data-timestamp="'+
+      ((__t=( timestamp ))==null?'':__t)+
       '" class="list-group-item list-knote">\n                <div class="body">\n                    <strong> '+
       ((__t=( content.length ? (c = content.split('\n')[0], c.length < 25 ? c : c.substr(0, 23) + '...') : '' ))==null?'':__t)+
       ' </strong>\n                </div>\n                <div class="date"> '+
@@ -48,7 +52,7 @@ var KnoteView = Backbone.View.extend({
       ' </div>\n            </li>\n            ';
       }
       return __p;
-      }
+    };
     this.model = model;
     var self = this;
     this.model.bind('save', function(resp) {
