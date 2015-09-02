@@ -127,7 +127,6 @@ var KnotesSyncView = Backbone.View.extend({
                 chrome.windows.remove(currentWinID, function(){})
 
                 setTimeout(function(){
-                  // $("#btn-email-knote").click();
                   localStorage.setItem("sync-gmail", "true");
                 }, 1000);
               }

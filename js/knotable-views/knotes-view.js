@@ -3,7 +3,6 @@ var KnotesView = Backbone.View.extend({
   events: {
     'click #btn-add-knote': 'saveCurrentKnote',
     'click #btn-add-knote-plus': 'createKnote',
-    'click #btn-email-knote': 'emailKnote',
     'click #btn-delete-knote': 'deleteKnote',
     'focus #knote-edit-area': 'ensureLoggingIn',
     'keyup #knote-edit-area': 'updateKnoteText',
@@ -42,53 +41,7 @@ var KnotesView = Backbone.View.extend({
         new self.LoginView().show();
     });
   },
-  emailKnote: function() {
-    var self = this;
-    gapi.auth.authorize({client_id: GoogleOauthHelper.getClientId(), scope: GoogleOauthHelper.getScopes(), immediate: true}, function(authResult){
-      if (authResult && !authResult.error) {
-        // The person has authorized or is already logged in
-        var knote = self.activeKnote;
-        console.debug('should email:', knote);
-        self.emailView = self.emailView || new EmailView({contact: self.contact});
-        self.emailView.model = knote;
-        self.emailView.render();
 
-      } else {
-
-        setTimeout(function(){
-
-          var currentWinID = 0;
-          chrome.windows.onCreated.addListener(function(data){
-            console.log(data)
-            currentWinID = data.id;
-          })
-
-          gapi.auth.authorize({client_id: GoogleOauthHelper.getClientId(), scope: GoogleOauthHelper.getScopes(), immediate: false}, function(authResult){
-          });
-
-          var pollTimer   =   window.setInterval(function() {
-            try {
-              gapi.auth.authorize({client_id: GoogleOauthHelper.getClientId(), scope: GoogleOauthHelper.getScopes(), immediate: true}, function(authResult){
-                if (authResult && !authResult.error) {
-                  window.clearInterval(pollTimer);
-                  chrome.windows.remove(currentWinID, function(){})
-
-                  setTimeout(function(){
-                    $("#btn-email-knote").click();
-                  }, 1000);
-                }
-              });
-            } catch(e) {
-              console.log(e)
-            }
-          }, 5000);
-
-        }, 1500);
-
-      }
-    });
-
-  },
   _randomLocalKnoteID: function (L){
       var s= '';
       var randomchar=function(){
@@ -497,7 +450,7 @@ var KnotesView = Backbone.View.extend({
       model.trigger('activate', model === activeKnote);
     });
 
-    this.$el.find('#btn-email-knote,#btn-delete-knote').removeAttr('disabled');
+    this.$el.find('#btn-delete-knote').removeAttr('disabled');
     return this.activeKnote;
   },
   saveKnoteAsGmailDraft: function(){
