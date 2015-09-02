@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "version": "0.0.1",
-    "name": "Knotes",
+    "name": "XKnotes",
     "short_name": "Knotes",
     "description": "Super fast notes app for Chrome from Knotable",
     "app": {
