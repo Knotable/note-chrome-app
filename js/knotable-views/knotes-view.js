@@ -103,7 +103,7 @@ var KnotesView = Backbone.View.extend({
 
       this._updateKnote();
       this.activeKnote = null;
-      if(navigator.onLine === false || offlineMode.isOfflineMode){
+      if(offlineMode.isOffline()){
         var random = this._randomLocalKnoteID(10);
         $(".list-knote.active").attr("data-knoteLocalId", random);
         this.localKnoteID = random;
@@ -289,7 +289,7 @@ var KnotesView = Backbone.View.extend({
     var val = textarea.val().trim();
     var self = this;
 
-    if(navigator.onLine === false || offlineMode.isOfflineMode){
+    if(offlineMode.isOffline()){
       this._updateKnoteOffline();
     }
 

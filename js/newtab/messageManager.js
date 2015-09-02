@@ -29,11 +29,13 @@ window.MessageManager = (function(){
     console.log("server connected");
     offlineMode.syncOfflineKnotes();
     offlineMode.syncCreateKnotes();
+    offlineMode.isOfflineMode = false;
   };
 
   var _onDisconnected = function(){
     console.log("Server disconnected");
     offlineMode.notifyOffline();
+    offlineMode.isOfflineMode = true;
   };
 
   var _handleMessageFromBackground = function(message, sender, sendResponse){
@@ -58,11 +60,7 @@ window.MessageManager = (function(){
 
 
   chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    // if (_isFromBackground(sender.id)){
-      _handleMessageFromBackground(message, sender, sendResponse);
-    // } else {
-      // console.log("Message from where?", sender);
-    // }
+    _handleMessageFromBackground(message, sender, sendResponse);
   });
 
 

@@ -40,6 +40,17 @@ window.offlineMode = (function(){
        }
   };
 
+  exports.isOffline = function(){
+		if(navigator.onLine === false || exports.isOfflineMode){
+			exports.isOfflineMode = true;
+			return exports.isOfflineMode;
+		}
+		else{
+			exports.isOfflineMode = false;
+			return exports.isOfflineMode;
+		}
+	};
+
   exports.syncOfflineKnotes = function(){
 
     chrome.storage.local.get('offlineEditKnotes', function (result) {
