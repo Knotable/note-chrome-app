@@ -26,6 +26,12 @@ var HeaderView = Backbone.View.extend({
 
   initialize: function() {
     console.log("HeaderView initialize");
+    this.$el.find('#newtab-topic-id').tooltip({
+      items: "img",
+      content: function() {
+        return $(this).attr('alt');
+      }
+    });
   },
 
   _setKUrl: function(){

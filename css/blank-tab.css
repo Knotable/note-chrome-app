@@ -947,6 +947,10 @@ strong{
     margin-right: 1.5em;
 }
 
+.ui-tooltip {
+  width: 230px;
+}
+
 a, a:hover{
     text-decoration: none;
     color: #fff;
