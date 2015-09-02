@@ -167,13 +167,16 @@ window.asteroid = (function(){
     var htmlBody = item.htmlBody;
     var title = item.title;
     var options = {};
-
+    var now = Date.now();
     options.htmlBody = htmlBody;
 
     if (title){
       options.title = title;
+      options.updated_date = now;
       return knotes.update(knoteId, options)
       .remote
+    } else if (item.order){
+      return knotes.update(knoteId, {order: item.order, updated_date: now}).remote;
     } else
     {
       return null;

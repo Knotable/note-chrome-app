@@ -49,7 +49,7 @@ var _addKnoteOnView = function(knotesView, newKnote) {
     newKnote.content = content;
     DropboxClient.syncKnote(newKnote);
     if (isActiveKnote) return;
-    knote.set({content: content});
+    knote.set({content: content, order: newKnote.order, timestamp: newKnote.timestamp});
   }
 };
 

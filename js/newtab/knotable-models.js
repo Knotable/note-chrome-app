@@ -16,7 +16,8 @@ window.KnotableModels = function() {
       content: '',
       body: '<p></p>',
       date: new Date(),
-      updated_date: new Date()
+      updated_date: new Date(),
+      timestamp: Date.now()
     },
     _getKnoteData: function() {
       var to_emails = this.get("to");

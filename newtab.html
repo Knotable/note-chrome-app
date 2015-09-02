@@ -244,7 +244,7 @@
 
         <!-- <div class="white-screen"></div> -->
             <script id="knote-template" type="text/x-handlebars-template">
-            <li data-knoteid="<%= knoteId %>" class="list-group-item list-knote">
+            <li data-knoteid="<%= knoteId %>"  data-order="<%= order %>" data-timestamp="<%= timestamp %>" class="list-group-item list-knote">
                 <div class="body">
                     <strong> <%= content.length ? (c = content.split('\n')[0], c.length < 25 ? c : c.substr(0, 23) + '...') : '' %> </strong>
                 </div>

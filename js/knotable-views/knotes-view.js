@@ -160,10 +160,10 @@ var KnotesView = Backbone.View.extend({
       return null;
     }
 
-    var nextOrder = _.max(this.collection.pluck('order'));
+    var nextOrder = _.min(this.collection.pluck('order'));
     if (!isFinite(nextOrder)) nextOrder = 1;
     var newKnote = new KnoteModel({
-      order: nextOrder + 0.1,
+      order: nextOrder - 1,
       content: content,
       topicId: localStorage.topicId
     });
@@ -213,7 +213,7 @@ var KnotesView = Backbone.View.extend({
 
     this.collection.on('add', this.onKnoteAdded, this);
     this.collection.on('remove', this.onKnoteRemoved, this);
-    // this.collection.on('change', this.onKnoteChanged, this);
+    this.collection.on('change', this.onKnoteChanged, this);
     this.collection.on('timeStampUpdate', this.onTimeStampUpdated, this);
 
     this.searchView = new SearchBoxView();
@@ -221,27 +221,49 @@ var KnotesView = Backbone.View.extend({
     this.$el.find('#knotes-list').sortable({
       containment: 'parent',
       items: 'li.list-group-item',
-      update: function(evt, ui) {
-        return;
-        var newIndex = ui.item.index();
-        // swap the order
-        var aModel = self.collection.models[self.initialIndex],
-        bModel = self.collection.models[newIndex],
-        aOrder = aModel.get('order'),
-        bOrder = bModel.get('order');
-        aModel.update({
-          order: bOrder,
-          event: 'updateOrder'
-        });
-        bModel.update({
-          order: aOrder,
-          event: 'updateOrder'
-        });
+      stop: function(evt, ui) {
+        var prevId = ui.item.prev().attr("data-knoteid");
+        var nextId = ui.item.next().attr("data-knoteid");
 
-        self.initialIndex = null;
+        var prevKnote = self.collection.findWhere({_id: prevId});
+        var nextKnote = self.collection.findWhere({_id: nextId});
+        nextKnote = nextKnote || prevKnote;
+        prevKnote = prevKnote || nextKnote;
+        var maxOrder = _.max([this.prevOrder, this.nextOrder, prevKnote.get("order"), nextKnote.get('order')]);
+        var minOrder = _.min([this.prevOrder, this.nextOrder, prevKnote.get("order"), nextKnote.get('order')]);
+        var $knotes = $("#knotes-list li").filter(function(knote){
+          var order = parseInt($(this).attr("data-order"));
+          if(order < minOrder || order > maxOrder){
+            return false;
+          } else {
+            return true;
+          }
+        });
+        if ($knotes.length <= (maxOrder-minOrder+1)){
+          var order = minOrder;
+          _.each($knotes, function(knote){
+            var knoteId = $(knote).attr("data-knoteid");
+            if($(knote).attr("data-order") !== order){
+              self.collection.findWhere({_id: knoteId}).set({order: order});
+              knoteClient.updateKnote(knoteId, {order: order++});
+            }
+          })
+        }
+        return
+        var knoteId = ui.item.attr("data-knoteid");
+        var options = {order: newOrder};
+        knoteClient.updateKnote(knoteId, options)
+        .then(function(){
+          console.log("Update knote", knoteId, " Success!");
+        })
+        .fail(function(){
+          console.error("Update knote", knoteId, " FAILED!");
+        });
       },
-      start: function(evt, ui) {
-        self.initialIndex = ui.item.index();
+      start: function(evt, ui){
+        var order = ui.item.attr("data-order");
+        this.prevOrder = parseInt(ui.item.prev().attr("data-order") || order);
+        this.nextOrder = parseInt(ui.item.next().attr("data-order") || order);
       }
     });
   },
@@ -373,6 +395,37 @@ var KnotesView = Backbone.View.extend({
       })
     }
   },
+  _sortKnotesList: function(){
+    var $knotes = this.$el.find('#knotes-list');
+    var $knotesLi = $knotes.find("li");
+    $knotesLi.sort(function(knoteA, knoteB){
+      if($(knoteA).hasClass("new-knote")){
+        return -1;
+      }
+      if($(knoteB).hasClass("new-knote")){
+        return 1;
+      }
+      var orderA = parseInt(knoteA.getAttribute('data-order'));
+  		var orderB = parseInt(knoteB.getAttribute('data-order'));
+
+      if(orderA > orderB){
+        return 1;
+      } else if (orderA < orderB){
+        return -1;
+      } else {
+        var timeA = parseInt(knoteA.getAttribute('data-timestamp'));
+        var timeB = parseInt(knoteB.getAttribute('data-timestamp'));
+        if(timeA > timeB){
+          return -1;
+        } else {
+          return 1;
+        }
+      }
+
+      return 0;
+    });
+    $knotesLi.detach().appendTo($knotes);
+  },
 
   onKnoteAdded: function(model) {
     var self = this;
@@ -381,12 +434,11 @@ var KnotesView = Backbone.View.extend({
     if ( model.get('archived') )
     return this;
 
-    var self = this,
     knoteView = new KnoteView(model);
 
     knoteView = knoteView.render().$el;
-    this.$el.find('#knotes-list').prepend(knoteView);
-
+    this.$el.find('#knotes-list').append(knoteView);
+    this._sortKnotesList();
     return this;
   },
   onKnoteRemoved: function(knote, collection, idx) {
@@ -396,43 +448,7 @@ var KnotesView = Backbone.View.extend({
 
   },
   onKnoteChanged: function(knote, collection, idx) {
-    // knote.set('body', '<div>' + knote.get('content').replace(/\n/g, '<br />') + '</div>');
-    var self = this;
-    var knoteID = knote.get("_id") || knote.get("knoteId");
-
-    var updateData = {
-      topic_id: localStorage.topicId
-    };
-
-    console.log("on knote changed", knoteID, knote.attributes);
-    if(knoteID === ""){
-      var promise = knote.update(updateData);
-
-      if(promise !== null){
-
-        promise.then(function() {
-          delete knote['isUpdating'];
-          console.log("success")
-        }).fail(function(){
-        }).done(function(){
-        });
-
-      }
-    }
-    else{
-      if(!knoteID) return;
-
-      var draft = {
-        "knoteId": knoteID,
-        "content": '<div>' + knote.get('content').replace(/\n/g, '<br />') + '</div>'
-      };
-
-      this.saveKnoteAsServerDraft(draft);
-    }
-    window.chromeActiveKnote = knoteID;
-    window.chromeActiveKnoteContent = $("#knote-edit-area").val();
-    var trottle = _.throttle(self.saveKnoteAsGmailDraft, 2000);
-    trottle();
+    this._sortKnotesList();
   },
   _isEditableAreaEmpty: function(){
     return _.isEmpty(this._getEditAreaContent());
