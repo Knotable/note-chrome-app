@@ -17,6 +17,7 @@ var HeaderView = Backbone.View.extend({
   },
 
   logout: function() {
+    var self = this;
     knoteClient.logout().then(function() {
       if(self.avatarView){
         self.avatarView.remove();
@@ -55,7 +56,9 @@ var HeaderView = Backbone.View.extend({
     knoteClient.getUserInfo().then(function(contact) {
       console.log("headerview contacts", contact);
       if (contact){
-        self.avatarView = new UserAvatarView(new UserAvatarModel(contact));
+        var avatar = new UserAvatarModel(contact);
+        self.avatarView = new UserAvatarView({model: avatar});
+        self.avatarView.render();
         window._knotesView.contact = contact;
         localStorage.userName = contact.username;
       } else {

@@ -104,7 +104,7 @@ function Knotable() {
 
   $(document).ready(function() {
     console.log('$document is ready');
-    setTimeout(setUserInfoLocal, 3000);
+    // setTimeout(setUserInfoLocal, 3000);
   });
 
   return {
