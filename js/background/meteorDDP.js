@@ -29,7 +29,7 @@ var KnotableMeteor = function() {
       body: data.htmlBody,
       htmlBody: data.htmlBody,
       name: AccountHelper.getUsername(),
-      topic_id: data.topic_id,
+      topic_id: data.topic_id || this.getTopicId(),
       userId: AccountHelper.getUserId(),
       date: data.date || new Date().toGMTString(),
       isMailgun: false,

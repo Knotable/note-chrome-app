@@ -20,13 +20,14 @@ var KnoteView = Backbone.View.extend({
     var options = window._knotesView._getUpdateOptions();
 
     if(knoteId){
-      window._knotesView._showSyncLoader();
+      if(!offlineMode.isOffline()){
+        window._knotesView._showSyncLoader();
+      }
       knoteClient.updateKnote(knoteId, options)
       .then(function(){
         console.log("Update knote", knoteId, " Success!");
-        window._knotesView._hideSyncLoader();
       })
-      .fail(function(){
+      .always(function(){
         console.error("Update knote", knoteId, " FAILED!");
         window._knotesView._hideSyncLoader();
       })

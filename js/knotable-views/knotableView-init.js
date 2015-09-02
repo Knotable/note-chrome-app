@@ -101,7 +101,7 @@ $(document).ready(function() {
 
   $("#knote-sync-message").css("visibility", "hidden");
 
-  if(navigator.onLine === true || !offlineMode.isOfflineMode){
+  if(!offlineMode.isOffline()){
       offlineMode.syncOfflineKnotes();
       offlineMode.syncCreateKnotes();
   }
