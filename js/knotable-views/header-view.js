@@ -3,7 +3,6 @@ var HeaderView = Backbone.View.extend({
   events: {
     'click #user-logout': 'logout',
     'click #newtab-topic-id': 'kClicked',
-    'click #google-apps': 'gAppClicked',
     'click #btn-sync-knotes': 'settingsKnoteSync'
   },
 
@@ -15,10 +14,6 @@ var HeaderView = Backbone.View.extend({
 
   kClicked: function(){
     googleAnalyticsHelper.trackAnalyticsEvent('K button', 'clicked');
-  },
-
-  gAppClicked: function(){
-    googleAnalyticsHelper.trackAnalyticsEvent('Google Apps button', 'clicked');
   },
 
   logout: function() {
