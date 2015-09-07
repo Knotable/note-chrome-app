@@ -30,14 +30,11 @@ var KnotesView = Backbone.View.extend({
     var self = this;
     knoteClient.hasLoggedIn().then(function(loggedIn){
       if(loggedIn){
-        if($("#knotable-button-login").length !== 0)
           new self.LoginView().hide();
       } else {
-        if($("#knotable-button-login").length === 0)
           new self.LoginView().show();
       }
     }).fail(function(){
-      if($("#knotable-button-login").length === 0)
         new self.LoginView().show();
     });
   },
